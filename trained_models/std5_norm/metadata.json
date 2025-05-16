@@ -1,0 +1,69 @@
+{
+    "model_name": "std5_norm",
+    "filter_id": "std5",
+    "filter_query": "(SELDB5 == 1)",
+    "input_cols": [
+        "qCYL",
+        "GWF",
+        "DELTA",
+        "PFIN",
+        "PRFN",
+        "HIGHZ",
+        "COAT"
+    ],
+    "input_cols_latex": [
+        "qCYL",
+        "GWF",
+        "DELTA",
+        "PFIN",
+        "PRFN",
+        "HIGHZ",
+        "COAT"
+    ],
+    "output_col": "HIPB98Y2",
+    "eval_cols": [
+        "TAUTH",
+        "TAU98Y2",
+        "TAU20"
+    ],
+    "exclude_scaling_indices": [
+        -2,
+        -1
+    ],
+    "ensemble_size": 20,
+    "hidden_layers": [
+        200,
+        200,
+        200,
+        200,
+        200
+    ],
+    "activations": [
+        "tanh",
+        "tanh",
+        "tanh",
+        "tanh",
+        "tanh",
+        "tanh",
+        "tanh",
+        "tanh",
+        "tanh",
+        "tanh",
+        "swish",
+        "swish",
+        "swish",
+        "swish",
+        "swish",
+        "swish",
+        "swish",
+        "swish",
+        "swish",
+        "swish"
+    ],
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "epochs": 100,
+    "seed": 42,
+    "training_data_size": 6791,
+    "validation_data_size": 755
+}
