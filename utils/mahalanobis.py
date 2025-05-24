@@ -2,7 +2,7 @@
 Calculates the Mahalanobis distance.
 """
 import numpy as np
-from scipy.linalg import pinvh # Use pseudo-inverse for stability
+from scipy.linalg import pinvh
 
 def calculate_mahalanobis_distance(X_train, X_eval, exclude_binary=False):
     """
@@ -17,15 +17,13 @@ def calculate_mahalanobis_distance(X_train, X_eval, exclude_binary=False):
         NumPy array of Mahalanobis distances for each point in X_eval.
     """
     if exclude_binary:
-        # Identify binary columns (assuming they only contain 0 and 1)
         binary_cols_mask = np.all((X_train == 0) | (X_train == 1), axis=0)
-        # Select non-binary columns
+
         X_train_non_binary = X_train[:, ~binary_cols_mask]
         X_eval_non_binary = X_eval[:, ~binary_cols_mask]
         
-        # Handle case where all columns are binary
         if X_train_non_binary.shape[1] == 0:
-            return np.zeros(X_eval.shape[0]) # Or some other appropriate value
+            return np.zeros(X_eval.shape[0]) 
         
         X_train_proc = X_train_non_binary
         X_eval_proc = X_eval_non_binary
@@ -33,13 +31,10 @@ def calculate_mahalanobis_distance(X_train, X_eval, exclude_binary=False):
         X_train_proc = X_train
         X_eval_proc = X_eval
         
-    # Calculate mean and inverse covariance matrix of the training data
     mean = np.mean(X_train_proc, axis=0)
     # Handle potential singular matrix with pseudo-inverse
     try:
         cov = np.cov(X_train_proc, rowvar=False)
-        # Add small regularization term for stability if needed
-        # cov += np.eye(cov.shape[0]) * 1e-6 
         inv_cov = pinvh(cov) 
     except np.linalg.LinAlgError:
         print("Warning: Covariance matrix calculation failed. Using identity matrix.")
@@ -47,15 +42,10 @@ def calculate_mahalanobis_distance(X_train, X_eval, exclude_binary=False):
         
     # Calculate Mahalanobis distance
     diff = X_eval_proc - mean
-    # Ensure diff has the correct shape if X_eval_proc has only one row
     if diff.ndim == 1:
         diff = diff.reshape(1, -1)
         
-    # Calculate distance: sqrt( (x-mu)^T * Sigma^-1 * (x-mu) )
-    # Use einsum for efficient calculation
     mahalanobis_sq = np.einsum('ij,jk,ik->i', diff, inv_cov, diff)
-    
-    # Handle potential negative values due to numerical precision issues
     mahalanobis_sq[mahalanobis_sq < 0] = 0
     
     return np.sqrt(mahalanobis_sq) 
