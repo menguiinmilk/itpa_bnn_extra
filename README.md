@@ -51,6 +51,12 @@ python itpa_bnn_gui.py
 └── itpa_bnn_gui.py     # GUI application
 ```
 
+## Data Source
+
+The model was trained using data from the International Global H-Mode Confinement Database, available at:
+- [OSF: https://osf.io/drwcq/](https://osf.io/drwcq/)
+- [Princeton University DataSpace: http://arks.princeton.edu/ark:/88435/dsp01m900nx49h](http://arks.princeton.edu/ark:/88435/dsp01m900nx49h)
+
 ## Dependencies
 
 - JAX/Flax (neural network framework)
@@ -62,4 +68,8 @@ python itpa_bnn_gui.py
 
 - **H-factor Prediction**: Predicted H-factor based on IPB98Y2 scaling
 - **Uncertainty**: Epistemic and aleatoric uncertainties of predictions
-- **Confidence Intervals**: 95% confidence interval provision 
+- **Confidence Intervals**: 95% confidence interval provision
+
+## License
+
+This project utilizes data under the CC-By Attribution 4.0 International license. 
